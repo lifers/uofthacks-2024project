@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Era Elegance - Transform Through Time</title>
     <link rel="stylesheet" href="./styles.css">
+    <script src="./bundle.js" defer></script>
 </head>
 
 <body>
@@ -37,6 +38,10 @@
         </form>
     </section>
 
+    <section id="story">
+
+    </section>
+
     <section>
         <h2>How It Works</h2>
         <ol>
@@ -46,80 +51,6 @@
             <li>Click "Transform Now" to see the magic!</li>
         </ol>
     </section>
-
-    <script>
-        const imgbbKey = '60cfabd40a0dc9accdb250458d9f27e6';
-        const gooeyKey = 'sk-Uoonkr50AneY17EACwYytduIBiV4zpn35C7UIjT9sodYv6zw';
-        console.log(imgbbKey);
-        console.log("Hello World!");
-
-        let ibb_url = '';
-
-        document.getElementById('photo').addEventListener('change', function(event) {
-            const selectedFile = event.target.files[0];
-
-            if (selectedFile) {
-                const formData = new FormData();
-                formData.append('expiration', 300);
-                formData.append('key', imgbbKey);
-                formData.append('image', selectedFile);
-
-                fetch('https://api.imgbb.com/1/upload', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Handle the successful response
-                    console.log(data);
-                    ibb_url = data.data.image.url;
-                    console.log(ibb_url);
-                })
-                .catch(error => {
-                    // Handle errors
-                    console.error('Error:', error);
-                });
-            } else {
-                console.error('No file selected.');
-            }
-        });
-
-        document.getElementById('img-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const location = document.getElementById('location').value;
-            const time = document.getElementById('time').value;
-
-            const payload = {
-                "input_image": ibb_url,
-                "text_prompt": `in ${location} in the ${time}`,
-                "negative_prompt": "people",
-            }
-
-            fetch("https://api.gooey.ai/v2/ObjectInpainting/", {
-                method: 'POST',
-                headers: {
-                    "Authorization": `Bearer ${gooeyKey}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Handle the successful response
-                console.log(data);
-                const transformedUrl = data.output.output_images[0];
-                console.log(transformedUrl);
-                const img = document.createElement('img');
-                img.src = transformedUrl;
-                document.body.appendChild(img);
-            })
-            .catch(error => {
-                // Handle errors
-                console.error('Error:', error);
-            });
-        });
-    </script>
 
 </body>
 
