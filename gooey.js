@@ -20,9 +20,13 @@ async function sendToGooey(event, ibb_url, location, time) {
   console.log(data);
   const transformedUrl = data.output.output_images[0];
   console.log(transformedUrl);
+
   const img = document.createElement('img');
   img.src = transformedUrl;
-  document.body.appendChild(img);
+
+  const retro = document.getElementById('retro');
+  retro.style.textAlign = 'center';
+  retro.appendChild(img);
 };
 
 module.exports = { sendToGooey };
